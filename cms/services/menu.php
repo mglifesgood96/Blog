@@ -9,8 +9,8 @@
         <span>Start</span>
         </a>
     </li>
-    <li class="nav-item <?php if ($strona == "article.php") { ?> active <?php } ?>">
-        <a class="nav-link" href="article">
+    <li class="nav-item <?php if ($strona == "articles.php") { ?> active <?php } ?>">
+        <a class="nav-link" href="articles">
         <i class="fas fa-list-alt"></i>
         <span>Posty</span>
         </a>

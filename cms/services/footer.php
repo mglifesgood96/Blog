@@ -15,11 +15,18 @@
 
   <script src="js/sb-admin.min.js"></script>
 
-  <?php if ($strona == "tags.php") { ?> 
+  <script src="js/components/header.js"></script>
+  <script src="js/components/editor.js"></script>
+  <script src="js/components/table.js"></script>
+
+  <?php if ($strona === "tags.php") { ?> 
     <script src="js/tags.js"></script>
   <?php } ?>
-  <?php if ($strona == "categories.php") { ?> 
+  <?php if ($strona === "categories.php") { ?> 
     <script src="js/categories.js"></script>
+  <?php } ?>
+  <?php if ($strona === "articles.php") { ?> 
+    <script src="js/articles.js"></script>
   <?php } ?>
 
 </body>

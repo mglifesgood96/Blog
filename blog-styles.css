@@ -1,6 +1,7 @@
 .main-article-title{
     font-size: 2em;
     font-family: 'Roboto', sans-serif;
+    line-height: 1.2em;
 }
 
 .main-article-category,.main-article-tag,.author-name:hover,.sub-article-author:hover{
@@ -45,11 +46,12 @@ footer{
     font-size: 0.8em;
 }
 
-.demo-link{
-    color: blue;
-}
-
 .sponsors{
     font-weight: bold;
     color: rgb(0, 0, 0, 0.4);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
 }

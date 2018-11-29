@@ -1,0 +1,33 @@
+mm_blog:
+
+    posts {
+        id
+        id_tag
+        id_category
+        title
+        description
+        status
+        token
+        creation_date
+        modification_date
+        published_from
+    }
+
+    tags {
+        id
+        nazwa
+        creation_date
+        modification_date
+    }
+
+    categories {
+        id
+        nazwa
+        creation_date
+        modification_date
+    }
+
+
+    RELATIONS:  
+        posts ( id_tag ) -> tags ( id )
+        posts ( id_category ) -> categories ( id )

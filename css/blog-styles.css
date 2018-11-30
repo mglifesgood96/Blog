@@ -1,0 +1,57 @@
+.main-article-title{
+    font-size: 2em;
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.2em;
+}
+
+.main-article-category,.main-article-tag,.author-name:hover,.sub-article-author:hover{
+    color: rgba(0,0,0,0.4);
+}
+
+.main-article-content{
+    font-size: 1em;
+}
+
+.main-article-category:hover,.main-article-title:hover,.author-name:hover,.sub-article-title:hover,.sub-article-category:hover{
+    color: rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+}
+
+footer{
+    color: #ffffff;
+    background-color: #343a40;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.recent-articles{
+    font-size: 1.7em;
+    font-weight: bold;
+}
+
+.sub-article-title{
+    font-size: 1.5em;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+}
+
+.sub-article-category,.sub-article-date{
+    color: rgb(0, 0, 0, 0.4);
+    font-size: 0.8em;
+}
+
+.sub-article-author{
+    text-decoration: underline;
+    font-size: 0.8em;
+}
+
+.sponsors{
+    font-weight: bold;
+    color: rgb(0, 0, 0, 0.4);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}

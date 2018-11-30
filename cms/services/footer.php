@@ -13,8 +13,11 @@
   <script src="vendor/datatables/jquery.dataTables.js"></script>
   <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
   <script src="vendor/toastr/toastr.min.js"></script>
+  <script src="vendor/sweetalert/sweetalert2.all.min.js"></script>
 
   <script src="js/sb-admin.min.js"></script>
+
+    <script src="js/script.js"></script>
 
   <script src="js/components/header.js"></script>
   <script src="js/components/editor.js"></script>

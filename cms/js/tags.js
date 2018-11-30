@@ -1,5 +1,7 @@
 const getTagsUrl = 'http://localhost/Blog/api/controlers/tags/read.php';
 const addTagsUrl = 'http://localhost/Blog/api/controlers/tags/add.php';
+const updateTagsUrl = 'http://localhost/Blog/api/controlers/tags/update.php';
+const deleteTagsUrl = 'http://localhost/Blog/api/controlers/tags/delete.php';
 const tabID = 'tagsTab';
 const editorID = 'tagsEdit';
 
@@ -21,7 +23,6 @@ let getTags = (refresh=false) => {
     })
 }
 
-//getTags(true);
 let addTag = (newName) => {
     $.ajax({
         type: "POST",
@@ -30,9 +31,11 @@ let addTag = (newName) => {
         data: {name: newName},
         success: function (data) {
             if (data.status == '200') {
-                console.log('dodano')
+                toastrAlertFlota(data.message, "success");
+                cleanEditor();
+                getTags(true);
             } else {
-                console.log(data.message);
+                toastrAlertFlota(data.message, "error");
             }
         },
         error: function (request, status, error) {
@@ -42,12 +45,63 @@ let addTag = (newName) => {
 }
  
 let editTag = (id, newName) => {
-    console.log(id)
-    console.log(newName)
+    $.ajax({
+        type: "POST",
+        url: updateTagsUrl,
+        dataType: "json",
+        data: { id: id, name: newName },
+        success: function (data) {
+            if (data.status == '200') {
+                toastrAlertFlota(data.message, "success");
+                cleanEditor();
+                getTags(true);
+            } else {
+                toastrAlertFlota(data.message, "error");
+            }
+        },
+        error: function (request, status, error) {
+            alert('błąd api')
+        }
+    })
+}
+
+let delTag = (id) => {
+    $.ajax({
+        type: "POST",
+        url: deleteTagsUrl,
+        dataType: "json",
+        data: { id: id },
+        success: function (data) {
+            if (data.status == '200') {
+                toastrAlertFlota(data.message, "success");
+                cleanEditor();
+                getTags(true);
+            } else {
+                toastrAlertFlota(data.message, "error");
+            }
+        },
+        error: function (request, status, error) {
+            alert('błąd api')
+        }
+    })
 }
 
 let deleteTag = (id) => {
-    console.log(id)
+    swal({
+        title: 'Czy napewno chcesz usunąć?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc3545',
+        confirmButtonText: 'Tak, usuń!'
+    }).then((result) => {
+        if (result.value) {
+            delTag(id);
+        }
+    })
+}
+
+let cleanEditor = () => {
+    document.querySelector('#' + editorID).value = '';
 }
 
 let tagsTableData = (data, ref = false) => {
@@ -84,6 +138,7 @@ let tagsTableData = (data, ref = false) => {
     let dataIndex = 0;
 
     $('#' + tabID + ' tbody').on('click', 'tr td:first-child', function () {
+        document.getElementById('cancelEdit').style.display = "block";
         dataIndex = this.parentElement.getAttribute("data-index");
         document.querySelector('#' + editorID).value = this.innerHTML;
     });
@@ -98,12 +153,18 @@ let tagsTableData = (data, ref = false) => {
             }
         })
         if(isValid){
-            if (dataIndex == 0)
+            if (dataIndex == 0 || dataIndex === '0')
                 addTag(tagEditorValue);
             else
                 editTag(dataIndex, tagEditorValue);
         }
      };
+
+    document.getElementById('cancelEdit').onclick = function () {
+        dataIndex = 0;
+        document.getElementById('cancelEdit').style.display = "none";
+        cleanEditor();
+    }
 }
 
 let templateTags = () => {
@@ -124,32 +185,3 @@ let templateTags = () => {
 }
 
 templateTags();
-
-
-// przenieś do jakiegoś skryptu ;D
-let toastrAlertFlota = (msg, type) => {
-    toastr.options = {
-        "closeButton": true,
-        "debug": false,
-        "newestOnTop": false,
-        "progressBar": true,
-        "positionClass": "toast-top-right",
-        "preventDuplicates": false,
-        "onclick": null,
-        "showDuration": "300",
-        "hideDuration": "500",
-        "timeOut": "2000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
-    }
-    if (type === 'success') {
-        toastr.success(msg);
-    } else if (type === 'error') {
-        toastr.error(msg);
-    } else if (type === 'warning') {
-        toastr.warning(msg);
-    }
-}

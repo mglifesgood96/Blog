@@ -48,22 +48,40 @@ class Tags
 
     function update()
     {
-        $query = "SELECT    
-                *
-            FROM
-                " . $this->table_name;
-
+        $query = "UPDATE
+                " . $this->table_name . "
+            SET
+                name = :name
+            WHERE
+                id = :id";
+ 
         $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt;
+ 
+        $this->name = htmlspecialchars(strip_tags($this->name));
+        $this->id = htmlspecialchars(strip_tags($this->id));
+ 
+        $stmt->bindParam(':name', $this->name);
+        $stmt->bindParam(':id', $this->id);
+ 
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
     }
 
     function delete()
     {
-        $query = "DELETE FROM " . $this->table_name;
+        $query = "DELETE FROM " . $this->table_name . " WHERE id = ?";
 
         $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt;
+ 
+        $this->id = htmlspecialchars(strip_tags($this->id));
+ 
+        $stmt->bindParam(1, $this->id);
+ 
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
     }
 }

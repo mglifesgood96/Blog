@@ -28,14 +28,22 @@ class Tags
 
     function add()
     {
-        $query = "SELECT    
-                *
-            FROM
-                " . $this->table_name;
-
+        $query = "INSERT INTO
+                " . $this->table_name . "
+            SET
+                name=:name";
+ 
         $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt;
+ 
+        $this->name = htmlspecialchars(strip_tags($this->name));
+ 
+        $stmt->bindParam(":name", $this->name);
+ 
+        if ($stmt->execute()) {
+            return true;
+        }
+
+        return false;
     }
 
     function update()

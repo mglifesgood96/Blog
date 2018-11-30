@@ -1,6 +1,6 @@
-let pageTable = (thArr, tadId)=>{
+let pageTable = (thArr, tabId)=>{
     let temp = `
-        <table id="${tadId}" class="table table-striped table-bordered" style="width:100%">
+        <table id="${tabId}" class="table table-striped table-bordered" style="width:100%">
             <thead>
                 <tr>
                     ${

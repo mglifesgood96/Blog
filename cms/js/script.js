@@ -1,4 +1,4 @@
-let toastrAlertFlota = (msg, type) => {
+const toastrAlertFlota = (msg, type) => {
     toastr.options = {
         "closeButton": true,
         "debug": false,
@@ -23,4 +23,22 @@ let toastrAlertFlota = (msg, type) => {
     } else if (type === 'warning') {
         toastr.warning(msg);
     }
+}
+
+const confirmRemove = (callback, param) => {
+    swal({
+        title: 'Czy napewno chcesz usunąć?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc3545',
+        confirmButtonText: 'Tak, usuń!'
+    }).then((result) => {
+        if (result.value) {
+            callback(param)
+        }
+    })
+}
+
+const cleanEditor = (editorID) => {
+    document.querySelector('#' + editorID).value = '';
 }

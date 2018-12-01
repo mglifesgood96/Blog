@@ -3,21 +3,21 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
 include_once '../../config/database.php';
-include_once '../../objects/tags.php';
+include_once '../../objects/categories.php';
 
 $database = new Database();
 $db = $database->getConnection();
 
-$tags = new Tags($db);
+$categories = new Categories($db);
 
-$stmt = $tags->read();
+$stmt = $categories->read();
 $num = $stmt->rowCount();
 
 if ($num > 0) {
 
-    $tags_arr = array();
-    $tags_arr["status"] = "200";
-    $tags_arr["data"] = array();
+    $categories_arr = array();
+    $categories_arr["status"] = "200";
+    $categories_arr["data"] = array();
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         extract($row);
@@ -29,17 +29,17 @@ if ($num > 0) {
             "modification_date" => $modification_date
         );
 
-        array_push($tags_arr["data"], $post_item);
+        array_push($categories_arr["data"], $post_item);
     }
 
     http_response_code(200);
 
-    echo json_encode($tags_arr);
+    echo json_encode($categories_arr);
 
 } else {
     //http_response_code(404);
     echo json_encode(
-        array("status"=>"404", "message" => "No tags found.", "data" => "")
+        array("status" => "404", "message" => "Brak danych", "data" => "")
     );
 
 }

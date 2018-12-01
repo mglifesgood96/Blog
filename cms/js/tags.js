@@ -10,12 +10,8 @@ let getTags = (refresh=false) => {
         url: getTagsUrl,
         dataType: "JSON",
         success: function (data) {
-            if(data.status == '200'){
-                let tags = data.data;
-                tagsTableData(tags, refresh);
-            }else{
-                console.log(data.message);
-            }
+            let tags = data.data;
+            tagsTableData(tags, refresh);
         },
         error: function (request, status, error) {
             console.log(error);
@@ -32,7 +28,7 @@ let addTag = (newName) => {
         success: function (data) {
             if (data.status == '200') {
                 toastrAlertFlota(data.message, "success");
-                cleanEditor();
+                cleanEditor(editorID);
                 getTags(true);
             } else {
                 toastrAlertFlota(data.message, "error");
@@ -53,28 +49,7 @@ let editTag = (id, newName) => {
         success: function (data) {
             if (data.status == '200') {
                 toastrAlertFlota(data.message, "success");
-                cleanEditor();
-                getTags(true);
-            } else {
-                toastrAlertFlota(data.message, "error");
-            }
-        },
-        error: function (request, status, error) {
-            alert('błąd api')
-        }
-    })
-}
-
-let delTag = (id) => {
-    $.ajax({
-        type: "POST",
-        url: deleteTagsUrl,
-        dataType: "json",
-        data: { id: id },
-        success: function (data) {
-            if (data.status == '200') {
-                toastrAlertFlota(data.message, "success");
-                cleanEditor();
+                cleanEditor(editorID);
                 getTags(true);
             } else {
                 toastrAlertFlota(data.message, "error");
@@ -87,21 +62,24 @@ let delTag = (id) => {
 }
 
 let deleteTag = (id) => {
-    swal({
-        title: 'Czy napewno chcesz usunąć?',
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#dc3545',
-        confirmButtonText: 'Tak, usuń!'
-    }).then((result) => {
-        if (result.value) {
-            delTag(id);
+    $.ajax({
+        type: "POST",
+        url: deleteTagsUrl,
+        dataType: "json",
+        data: { id: id },
+        success: function (data) {
+            if (data.status == '200') {
+                toastrAlertFlota(data.message, "success");
+                cleanEditor(editorID);
+                getTags(true);
+            } else {
+                toastrAlertFlota(data.message, "error");
+            }
+        },
+        error: function (request, status, error) {
+            alert('błąd api')
         }
     })
-}
-
-let cleanEditor = () => {
-    document.querySelector('#' + editorID).value = '';
 }
 
 let tagsTableData = (data, ref = false) => {
@@ -125,7 +103,7 @@ let tagsTableData = (data, ref = false) => {
                 orderable: false,
                 responsivePriority: 1,
                 render: function (data, type, row) {
-                    return `<i class="fa fa-trash" onClick="deleteTag(${row.id})"></i>`
+                    return `<i class="fa fa-trash" onClick="confirmRemove(deleteTag,${row.id})" style="cursor: pointer;"></i>`
                 }
             }],
         });
@@ -146,24 +124,29 @@ let tagsTableData = (data, ref = false) => {
     document.getElementById('editorSave').onclick = function () {
         let tagEditorValue = document.querySelector('#' + editorID).value;
         let isValid = true;
-        data.map(function(e) {
-            if (e.name === tagEditorValue){
-                alert('taki tag juz istnieje');
-                isValid = false;
-            }
-        })
+        if(data.length > 0){
+            data.map(function(e) {
+                if (e.name === tagEditorValue){
+                    alert('taki tag juz istnieje');
+                    isValid = false;
+                }
+            })
+        }
         if(isValid){
             if (dataIndex == 0 || dataIndex === '0')
                 addTag(tagEditorValue);
             else
                 editTag(dataIndex, tagEditorValue);
+
+            document.getElementById('cancelEdit').style.display = "none";
+            dataIndex = 0;
         }
      };
 
     document.getElementById('cancelEdit').onclick = function () {
         dataIndex = 0;
         document.getElementById('cancelEdit').style.display = "none";
-        cleanEditor();
+        cleanEditor(editorID);
     }
 }
 

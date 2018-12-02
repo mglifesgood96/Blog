@@ -1,4 +1,4 @@
-const getPostsUrl = 'http://localhost/Blog/api/controlers/posts/read.php';
+const getPostsUrl = 'http://localhost/Blog/api/controlers/posts/read_adm.php';
 const getOnePostUrl = 'http://localhost/Blog/api/controlers/posts/read_one.php';
 const tabID = 'articlesTab';
 
@@ -29,7 +29,7 @@ let postsTable = (data, refresh=false) => {
             "columns": [
                 { "data": "id", responsivePriority: 1, },
                 { "data": "title", responsivePriority: 1, },
-                { "data": "id_category", responsivePriority: 1, },
+                { "data": "category", responsivePriority: 1, },
                 { "data": "status", responsivePriority: 1, },
                 { "data": "creation_date", responsivePriority: 1, },
                 { "name": "actions" },

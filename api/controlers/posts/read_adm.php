@@ -10,7 +10,7 @@ $db = $database->getConnection();
  
 $posts = new Post($db);
 
-$stmt = $posts->read();
+$stmt = $posts->readAdm();
 $num = $stmt->rowCount();
  
 if ($num > 0) {
@@ -25,13 +25,11 @@ if ($num > 0) {
             "id" => $id,
             "page_name" => $page_name,
             "title" => $title,
-            'description' => $description,
             "id_tag" => $id_tag,
-            "id_category" => $id_category,
+            "category" => $category,
             "status" => $status,
             "creation_date" => $creation_date,
-            "modification_date" => $modification_date,
-            "published_from" => $published_from
+            "modification_date" => $modification_date
         );
 
         array_push($posts_arr["data"], $post_item);

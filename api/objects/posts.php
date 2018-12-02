@@ -13,19 +13,19 @@ class Post
     public $page_name;
     public $creation_date;
     public $modification_date;
-    public $published_from;
  
     public function __construct($db)
     {
         $this->conn = $db;
     }
 
-    function read()
+    function readAdm()
     {
-        $query = "SELECT    
-                *
+        $query = "SELECT posts.id, posts.id_tag, categories.name AS category, posts.title, statuses_posts.name AS status, posts.page_name, posts.creation_date, posts.modification_date
             FROM
-                " . $this->table_name;
+                " . $this->table_name . " " .
+                "LEFT JOIN statuses_posts ON posts.status = statuses_posts.id"." ".
+                "LEFT JOIN categories ON posts.id_category = categories.id";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();

@@ -9,6 +9,7 @@ class Post
     public $id_category;
     public $title;
     public $description;
+    public $img_baner;
     public $status;
     public $page_name;
     public $creation_date;
@@ -33,21 +34,16 @@ class Post
     }
 
     function readOneById(){
-        $query = "SELECT
-                *
+        $query = "SELECT *
             FROM
-                " . $this->table_name . " p";
- 
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $this->id);
-        $stmt->execute();
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                " . $this->table_name . " " .
+                "WHERE id = :id";
 
-        // $this->name = $row['name'];
-        // $this->price = $row['price'];
-        // $this->description = $row['description'];
-        // $this->category_id = $row['category_id'];
-        // $this->category_name = $row['category_name'];
+        $stmt = $this->conn->prepare($query);
+        $this->id = htmlspecialchars(strip_tags($this->id));
+        $stmt->bindParam(':id', $this->id);
+        $stmt->execute();
+        return $stmt;
     }
 
     function create()

@@ -2,6 +2,7 @@ const getPostsUrl = 'http://localhost/Blog/api/controlers/posts/read_adm.php';
 const getOnePostUrl = 'http://localhost/Blog/api/controlers/posts/read_one_adm.php'; 
 const getCategoriesUrl = 'http://localhost/Blog/api/controlers/categories/read.php';
 const getTagsUrl = 'http://localhost/Blog/api/controlers/tags/read.php';
+const getStatusesUrl = 'http://localhost/Blog/api/controlers/posts_status/read.php';
 const tabID = 'articlesTab';
 
 let getPosts = (refresh = false) => {
@@ -27,6 +28,15 @@ let getOnePost = (id) => {
         success: function (data) {
             document.getElementById('articleForm').innerHTML = articleForm(data.data[0]);
             $('.form-control-chosen').chosen()
+            $('.form-control-chosen-ds').chosen({ "disable_search": true })   
+            $('#summernote').summernote({
+                height: ($(window).height() - 300),
+                callbacks: {
+                    onImageUpload: function (image) {
+                        uploadImage(image[0]);
+                    }
+                }
+            });
         },
         error: function (request, status, error) {
             console.log(error);

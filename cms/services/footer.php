@@ -31,6 +31,7 @@
     <script src="js/categories.js"></script>
   <?php } ?>
   <?php if ($strona === "articles.php") { ?> 
+    <script src="vendor/summernote/summernote-bs4.js"></script>
     <script src="js/components/articleForm.js"></script>
     <script src="js/articles.js"></script>
   <?php } ?>

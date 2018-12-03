@@ -8,7 +8,6 @@ const articleForm = (data) => {
         tId = data.id_tag;
         postTags = tId.split(',');
     }
-    console.log(tags)
     let temp = `
         <div class="mx-3">
             <div class="form-group">
@@ -45,9 +44,9 @@ const articleForm = (data) => {
 
                 <div class="mb-3">
                     <label for="exampleFormControlSelect2">Status</label>
-                        <select class="form-control" id="exampleFormControlSelect2">
-                            <option>Projekt</option>
-                            <option>Publiczny</option>
+                        <select class="form-control form-control-chosen-ds" id="exampleFormControlSelect2">
+                            <option value="1">Projekt</option>
+                            <option value="2">Publiczny</option>
                         </select>
                 </div> 
 
@@ -62,7 +61,7 @@ const articleForm = (data) => {
 
                 <div class="mb-3">
                     <label for="exampleFormControlTextarea1">Treść posta</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">${(isNew) ? '' : data.description}
+                    <textarea class="form-control" id="summernote" rows="3">${(isNew) ? '' : data.description}
                     </textarea>
                 </div>
             </div>
@@ -81,11 +80,20 @@ const openArticleForm = (isNew=true,id) => {
     getCategories();
     getTags();
     if(!isNew){
-        getOnePost(id)
+        setTimeout(function () { getOnePost(id) }, 100);
     }else{
         $(document).ajaxStop(function () {
             document.getElementById('articleForm').innerHTML = articleForm()
             $('.form-control-chosen').chosen()
+            $('.form-control-chosen-ds').chosen({ "disable_search": true})  
+            $('#summernote').summernote({
+                height: ($(window).height() - 300),
+                callbacks: {
+                    onImageUpload: function (image) {
+                        uploadImage(image[0]);
+                    }
+                }
+            });       
         });
     }
 }
@@ -123,4 +131,24 @@ let getTags = () => {
             console.log(error);
         }
     })
+}
+
+function uploadImage(image) {
+    var data = new FormData();
+    data.append("image", image);
+    $.ajax({
+        url: 'Your url to deal with your image',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: data,
+        type: "post",
+        success: function (url) {
+            var image = $('<img>').attr('src', 'http://' + url);
+            $('#summernote').summernote("insertNode", image[0]);
+        },
+        error: function (data) {
+            console.log(data);
+        }
+    });
 }

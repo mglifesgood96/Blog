@@ -1,5 +1,14 @@
+let categories = [];
+let tags = [];
+
 const articleForm = (data) => {
     let isNew = (data)?false:true;
+    let postTags = [];
+    if(!isNew){
+        tId = data.id_tag;
+        postTags = tId.split(',');
+    }
+    console.log(tags)
     let temp = `
         <div class="mx-3">
             <div class="form-group">
@@ -9,16 +18,28 @@ const articleForm = (data) => {
                 </div>
 
                 <div class="mb-3">
-                    <label for="exampleFormControlSelect2">Kategoria</label>
-                        <select class="form-control" id="exampleFormControlSelect2">
-                            <option>1</option>
+                    <label for="fieldCategory">Kategoria</label>
+                        <select class="form-control form-control-chosen" data-placeholder="Wybierz kategorie..." id="fieldCategory">
+                            <option></option>    
+                            ${categories.map(e=>`
+                                <option ${(isNew)?'':(e.id === data.id_category)?'selected':''} >
+                                    ${e.name}
+                                </option>`
+                            )}
                         </select>
                 </div>
                 
                 <div class="mb-3">
-                    <label for="exampleFormControlSelect2">Tagi</label>
-                        <select class="form-control" id="exampleFormControlSelect2">
-                            <option>1</option>
+                    <label for="fieldTags">Tagi</label>
+                        <select class="form-control form-control-chosen" multiple data-placeholder="Wybierz tagi..." id="fieldTags">
+                            <option></option>
+                            ${tags.map(e=>`
+                                <option
+                                    ${postTags.map(t=>(e.id === t)?'selected':'').join('')}
+                                >
+                                    ${e.name}
+                                </option>`
+                            )}
                         </select>
                 </div>
 
@@ -57,15 +78,49 @@ const articleForm = (data) => {
 const openArticleForm = (isNew=true,id) => {
     document.getElementById('tabBox').style.display = 'none';
     document.getElementById('articleForm').style.display = 'block';
-    if(!isNew)
+    getCategories();
+    getTags();
+    if(!isNew){
         getOnePost(id)
-    else
-        document.getElementById('articleForm').innerHTML = articleForm()
+    }else{
+        $(document).ajaxStop(function () {
+            document.getElementById('articleForm').innerHTML = articleForm()
+            $('.form-control-chosen').chosen()
+        });
+    }
 }
 
 const closeArticleForm = () => {
     document.getElementById('tabBox').style.display = 'block';
     document.getElementById('articleForm').innerHTML = '';
     document.getElementById('articleForm').style.display = 'none';
+    categories = [];
+    tags = [];
     getPosts(true);
+}
+
+let getCategories = () => {
+    $.ajax({
+        url: getCategoriesUrl,
+        dataType: "JSON",
+        success: function (data) {
+            categories = data.data;
+        },
+        error: function (request, status, error) {
+            console.log(error);
+        }
+    })
+}
+
+let getTags = () => {
+    $.ajax({
+        url: getTagsUrl,
+        dataType: "JSON",
+        success: function (data) {
+            tags = data.data;
+        },
+        error: function (request, status, error) {
+            console.log(error);
+        }
+    })
 }

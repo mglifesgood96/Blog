@@ -1,5 +1,7 @@
 const getPostsUrl = 'http://localhost/Blog/api/controlers/posts/read_adm.php';
-const getOnePostUrl = 'http://localhost/Blog/api/controlers/posts/read_one_adm.php';
+const getOnePostUrl = 'http://localhost/Blog/api/controlers/posts/read_one_adm.php'; 
+const getCategoriesUrl = 'http://localhost/Blog/api/controlers/categories/read.php';
+const getTagsUrl = 'http://localhost/Blog/api/controlers/tags/read.php';
 const tabID = 'articlesTab';
 
 let getPosts = (refresh = false) => {
@@ -24,6 +26,7 @@ let getOnePost = (id) => {
         data: {id:id},
         success: function (data) {
             document.getElementById('articleForm').innerHTML = articleForm(data.data[0]);
+            $('.form-control-chosen').chosen()
         },
         error: function (request, status, error) {
             console.log(error);

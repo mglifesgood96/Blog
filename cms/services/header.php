@@ -15,6 +15,7 @@
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
     <link href="vendor/toastr/toastr.min.css" rel="stylesheet">
+    <link href="vendor/choosen/component-chosen.css" rel="stylesheet">
     <link href="css/sb-admin.css" rel="stylesheet">
 
 </head>

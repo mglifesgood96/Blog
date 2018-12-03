@@ -45,6 +45,10 @@ const articleForm = (data) => {
                     </textarea>
                 </div>
             </div>
+            <div class="float-right">
+                <button type="button" class="btn btn-secondary" onClick="closeArticleForm()">Powrót</button>
+                <button type="button" class="btn btn-success">Zapisz</button>
+            </div>
         </div>
     `;
     return temp;
@@ -63,4 +67,5 @@ const closeArticleForm = () => {
     document.getElementById('tabBox').style.display = 'block';
     document.getElementById('articleForm').innerHTML = '';
     document.getElementById('articleForm').style.display = 'none';
+    getPosts(true);
 }

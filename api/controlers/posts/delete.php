@@ -5,27 +5,21 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-include_once '../config/database.php';
-include_once '../objects/product.php';
+include_once '../../config/database.php';
+include_once '../../objects/posts.php';
 
 $database = new Database();
 $db = $database->getConnection();
 
-$product = new Product($db);
- 
-// TODO: pobranie daynych z ajax  $data
+$posts = new Post($db);
 
-$product->id = $data->id;
+$posts->id = $_POST['id'];
 
-if ($product->delete()) {
- 
+if ($posts->delete()) {
     http_response_code(200);
- 
-    echo json_encode(array("message" => "Product was deleted."));
-}
-else {
+    echo json_encode(array("status" => "200", "message" => "Usunięto!"));
+} else {
     http_response_code(503);
- 
-    echo json_encode(array("message" => "Unable to delete product."));
+    echo json_encode(array("status" => "503", "message" => "Błąd!"));
 }
 ?>

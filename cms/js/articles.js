@@ -3,6 +3,9 @@ const getOnePostUrl = 'http://localhost/Blog/api/controlers/posts/read_one_adm.p
 const getCategoriesUrl = 'http://localhost/Blog/api/controlers/categories/read.php';
 const getTagsUrl = 'http://localhost/Blog/api/controlers/tags/read.php';
 const getStatusesUrl = 'http://localhost/Blog/api/controlers/posts_status/read.php';
+const deletePostUrl = 'http://localhost/Blog/api/controlers/posts/delete.php';
+const updatePostUrl = 'http://localhost/Blog/api/controlers/posts/update.php';
+const createPostUrl = 'http://localhost/Blog/api/controlers/posts/create.php';
 const tabID = 'articlesTab';
 
 let getPosts = (refresh = false) => {
@@ -30,13 +33,13 @@ let getOnePost = (id) => {
             $('.form-control-chosen').chosen()
             $('.form-control-chosen-ds').chosen({ "disable_search": true })   
             $('#summernote').summernote({
-                height: ($(window).height() - 300),
-                callbacks: {
-                    onImageUpload: function (image) {
-                        uploadImage(image[0]);
-                    }
-                }
+                height: ($(window).height() - 300)
             });
+            // callbacks: {
+            //     onImageUpload: function (image) {
+            //         uploadImage(image[0]);
+            //     }
+            // }
         },
         error: function (request, status, error) {
             console.log(error);
@@ -44,8 +47,100 @@ let getOnePost = (id) => {
     })
 }
 
+let getCategories = () => {
+    $.ajax({
+        url: getCategoriesUrl,
+        dataType: "JSON",
+        success: function (data) {
+            categories = data.data;
+        },
+        error: function (request, status, error) {
+            console.log(error);
+        }
+    })
+}
+
+let createPost = (data) => {
+    $.ajax({
+        type: "POST",
+        url: createPostUrl,
+        dataType: "json",
+        data: data,
+        success: function (data) {
+            if (data.status == '200') {
+                openArticleForm(false, data.insertId)
+                toastrAlertFlota(data.message, "success");
+            } else {
+                openArticleForm(false, data.insertId)
+                toastrAlertFlota(data.message, "error");
+            }
+        },
+        error: function (request, status, error) {
+            alert('błąd api')
+        }
+    })
+}
+
+let sendUpdatePost = (data) => {
+    $.ajax({
+        type: "POST",
+        url: updatePostUrl,
+        dataType: "json",
+        data: data,
+        success: function (data) {
+            if (data.status == '200') {
+                toastrAlertFlota(data.message, "success");
+            } else {
+                toastrAlertFlota(data.message, "error");
+            }
+        },
+        error: function (request, status, error) {
+            alert('błąd api')
+        }
+    })
+}
+
 let deleteTag = (id) => {
-    alert('niedostępne')
+    $.ajax({
+        type: "POST",
+        url: deletePostUrl,
+        dataType: "json",
+        data: { id: id },
+        success: function (data) {
+            if (data.status == '200') {
+                toastrAlertFlota(data.message, "success");
+                getPosts(true);
+            } else {
+                toastrAlertFlota(data.message, "error");
+            }
+        },
+        error: function (request, status, error) {
+            alert('błąd api')
+        }
+    })
+}
+
+let getTags = () => {
+    $.ajax({
+        url: getTagsUrl,
+        dataType: "JSON",
+        success: function (data) {
+            tags = data.data;
+        },
+        error: function (request, status, error) {
+            console.log(error);
+        }
+    })
+}
+
+let getArticleFromData = () => {
+    let result = {};
+    let tags = $('#fieldTags').val();
+    $.each($('form').serializeArray(), function () {
+        result[this.name] = this.value;
+    });
+    result.id_tag = tags.toString();
+    return result;
 }
 
 let postsTable = (data, refresh=false) => {

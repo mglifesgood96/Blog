@@ -13,33 +13,34 @@ $db = $database->getConnection();
 
 $post = new Post($db);
  
-// TODO: pobranie daynych z ajax  $data
+$title = $_POST['title'];
+$description = $_POST['description'];
+$id_category = $_POST['id_category'];
+$id_tag = $_POST['id_tag'];
+$status = $_POST['status'];
 
-if (!empty($data->title) &&
-    !empty($data->page_name) &&
-    !empty($data->description)
-) {
-    $post->title = $data->title;
-    $post->page_name = $data->page_name;
-    $post->description = $data->description;
-    $post->id_category = $data->id_category;
-    $post->id_tag = $data->id_tag;
-    $post->status = $data->status;
+if (isset($status)) {
+
+    $post->title = $title;
+    $post->description = $description;
+    $post->id_category = $id_category;
+    $post->id_tag = $id_tag;
+    $post->status = $status;
     
     if ($post->create()) {
         http_response_code(201);
  
-        echo json_encode(array("message" => "Post was created."));
+        echo json_encode(array("status" => "200", "insertId" => $post->id, "message" => "Dodano!"));
     }
     else {
         http_response_code(503);
  
-        echo json_encode(array("message" => "Unable to create post."));
+        echo json_encode(array("status" => "503", "message" => "Nie mozna dodać!"));
     }
 }
 else {
     http_response_code(400);
 
-    echo json_encode(array("message" => "Unable to create post. Data is incomplete."));
+    echo json_encode(array("status" => "400", "message" => "Błąd danych!"));
 }
 ?>

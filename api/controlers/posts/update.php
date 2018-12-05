@@ -5,31 +5,36 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
  
-include_once '../config/database.php';
-include_once '../objects/product.php';
+include_once '../../config/database.php';
+include_once '../../objects/posts.php';
  
 $database = new Database();
 $db = $database->getConnection();
  
-$product = new Product($db);
+$post = new Post($db);
  
-//TODO:: pobierz dane $data
+$id = $_POST['id'];
+$title = $_POST['title'];
+$description = $_POST['description'];
+$id_category = $_POST['id_category'];
+$id_tag = $_POST['id_tag'];
+$status = $_POST['status'];
+
+$post->id = $id;
+$post->title = $title;
+$post->description = $description;
+$post->id_category = $id_category;
+$post->id_tag = $id_tag;
+$post->status = $status;
  
-$product->id = $data->id;
- 
-$product->name = $data->name;
-$product->price = $data->price;
-$product->description = $data->description;
-$product->category_id = $data->category_id;
- 
-if ($product->update()) {
+if ($post->update()) {
     http_response_code(200);
  
-    echo json_encode(array("message" => "Product was updated."));
+    echo json_encode(array("status"=>"200","message" => "Zapisano"));
 }
 else {
     http_response_code(503);
  
-    echo json_encode(array("message" => "Unable to update product."));
+    echo json_encode(array("status" => "503","message" => "Unable to update post."));
 }
 ?>

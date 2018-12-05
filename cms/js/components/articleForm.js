@@ -9,31 +9,36 @@ const articleForm = (data) => {
         postTags = tId.split(',');
     }
     let temp = `
+    <form>
         <div class="mx-3">
             <div class="form-group">
                 <div class="mb-3">
                     <label for="exampleFormControlSelect2">Tytuł</label>
-                    <input type="text" class="form-control" name="" id="" aria-describedby="helpId" placeholder="" value="${(isNew)?'':data.title}">
+                    <input type="text" class="form-control" name="title" id="" aria-describedby="helpId" placeholder="" value="${(isNew)?'':data.title}">
                 </div>
 
                 <div class="mb-3">
                     <label for="fieldCategory">Kategoria</label>
-                        <select class="form-control form-control-chosen" data-placeholder="Wybierz kategorie..." id="fieldCategory">
+                        <select class="form-control form-control-chosen" name="id_category" data-placeholder="Wybierz kategorie..." id="fieldCategory">
                             <option></option>    
                             ${categories.map(e=>`
-                                <option ${(isNew)?'':(e.id === data.id_category)?'selected':''} >
+                                <option 
+                                    value="${e.id}"
+                                    ${(isNew)?'':(e.id === data.id_category)?'selected':''} 
+                                >
                                     ${e.name}
                                 </option>`
-                            )}
+                            ).join('')}
                         </select>
                 </div>
                 
                 <div class="mb-3">
                     <label for="fieldTags">Tagi</label>
-                        <select class="form-control form-control-chosen" multiple data-placeholder="Wybierz tagi..." id="fieldTags">
+                        <select class="form-control form-control-chosen" name="id_tag" multiple data-placeholder="Wybierz tagi..." id="fieldTags">
                             <option></option>
                             ${tags.map(e=>`
                                 <option
+                                    value="${e.id}" 
                                     ${postTags.map(t=>(e.id === t)?'selected':'').join('')}
                                 >
                                     ${e.name}
@@ -44,9 +49,9 @@ const articleForm = (data) => {
 
                 <div class="mb-3">
                     <label for="exampleFormControlSelect2">Status</label>
-                        <select class="form-control form-control-chosen-ds" id="exampleFormControlSelect2">
-                            <option value="1">Projekt</option>
-                            <option value="2">Publiczny</option>
+                        <select class="form-control form-control-chosen-ds" name="status" id="exampleFormControlSelect2">
+                            <option value="1" ${(isNew) ? '' : (data.status == 1 || data.status === '1') ? 'selected' : ''} >Projekt</option>
+                            <option value="2" ${(isNew) ? '' : (data.status == 2 || data.status === '2') ? 'selected' : ''}>Publiczny</option>
                         </select>
                 </div> 
 
@@ -61,15 +66,16 @@ const articleForm = (data) => {
 
                 <div class="mb-3">
                     <label for="exampleFormControlTextarea1">Treść posta</label>
-                    <textarea class="form-control" id="summernote" rows="3">${(isNew) ? '' : data.description}
+                    <textarea name="description" class="form-control" id="summernote" rows="3">${(isNew) ? '' : data.description}
                     </textarea>
                 </div>
             </div>
             <div class="float-right">
                 <button type="button" class="btn btn-secondary" onClick="closeArticleForm()">Powrót</button>
-                <button type="button" class="btn btn-success">Zapisz</button>
+                <button type="button" class="btn btn-success" onClick="saveArticleForm(${(isNew) ? 0 : data.id})">Zapisz</button>
             </div>
         </div>
+    <form>
     `;
     return temp;
 }
@@ -80,9 +86,9 @@ const openArticleForm = (isNew=true,id) => {
     getCategories();
     getTags();
     if(!isNew){
-        setTimeout(function () { getOnePost(id) }, 100);
+        setTimeout(function () { getOnePost(id) }, 150);
     }else{
-        $(document).ajaxStop(function () {
+        setTimeout(function () {
             document.getElementById('articleForm').innerHTML = articleForm()
             $('.form-control-chosen').chosen()
             $('.form-control-chosen-ds').chosen({ "disable_search": true})  
@@ -92,9 +98,9 @@ const openArticleForm = (isNew=true,id) => {
                     onImageUpload: function (image) {
                         uploadImage(image[0]);
                     }
-                }
-            });       
-        });
+                }  
+            });
+        }, 150);
     }
 }
 
@@ -107,31 +113,15 @@ const closeArticleForm = () => {
     getPosts(true);
 }
 
-let getCategories = () => {
-    $.ajax({
-        url: getCategoriesUrl,
-        dataType: "JSON",
-        success: function (data) {
-            categories = data.data;
-        },
-        error: function (request, status, error) {
-            console.log(error);
-        }
-    })
+const saveArticleForm = (id) => {
+    let data = getArticleFromData();
+    data.id = id;
+    if(id == 0 || id === '0')
+        createPost(data)
+    else
+        sendUpdatePost(data);
 }
 
-let getTags = () => {
-    $.ajax({
-        url: getTagsUrl,
-        dataType: "JSON",
-        success: function (data) {
-            tags = data.data;
-        },
-        error: function (request, status, error) {
-            console.log(error);
-        }
-    })
-}
 
 function uploadImage(image) {
     var data = new FormData();

@@ -7,6 +7,8 @@ const deletePostUrl = 'http://localhost/Blog/api/controlers/posts/delete.php';
 const updatePostUrl = 'http://localhost/Blog/api/controlers/posts/update.php';
 const createPostUrl = 'http://localhost/Blog/api/controlers/posts/create.php';
 const uploadImageUrl = 'http://localhost/Blog/api/controlers/image/upload.php';
+const uploadHeaderImageUrl = 'http://localhost/Blog/api/controlers/image/uploadHeader.php';
+
 const tabID = 'articlesTab';
 
 let getPosts = (refresh = false) => {

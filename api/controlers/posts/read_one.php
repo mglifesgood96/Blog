@@ -10,7 +10,8 @@ $db = $database->getConnection();
 
 $posts = new Post($db);
 
-$posts->page_name = $_POST['page_name'];
+$posts->page_name = "przykladowy_tytul_1";
+//$_POST['page_name'];
 
 $stmt = $posts->readOne();
 $num = $stmt->rowCount();
@@ -39,7 +40,13 @@ if ($num > 0) {
 
     http_response_code(200);
 
-    echo json_encode($posts_arr);
+    if($posts_arr['data'][0]["status"] === "2" || $posts_arr['data'][0]["status"] == 2){
+        echo json_encode($posts_arr);
+    }else{
+        echo json_encode(
+            array("error" => "Post not available")
+        );
+    }
 
 } else {
 

@@ -1,5 +1,4 @@
 const articleContent = (data)=>{
-    console.log(data.title)
     let temp = `
     <div class="col-lg-12">
         <hr />

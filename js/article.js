@@ -6,8 +6,13 @@ let getArticle = () => {
         dataType: "JSON",
         data: { page_name: pn },
         success: function (data) {
-            templateArticle(data.data[0]);
-            getTags(data.data[0].id_tag);
+            console.log(data)
+            if (data.hasOwnProperty('error')) {
+                alert(data.error)
+            }else{
+                templateArticle(data.data[0]);
+                getTags(data.data[0].id_tag);
+            }
         },
         error: function (request, status, error) {
             console.log(error);
@@ -34,13 +39,12 @@ let getTags = (ds) => {
 }
 
 let templateArticle = (data) => {
-    console.log(data);
     let temp = `
     <main role="main" class="container">
         <br /> <br />
         <div class="row">
             ${
-                imgHeader()
+                imgHeader(data)
             }
             ${
                 articleContent(data)

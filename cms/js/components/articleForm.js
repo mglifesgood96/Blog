@@ -1,5 +1,7 @@
 let categories = [];
 let tags = [];
+let dz;
+let ids;
 
 const articleForm = (data) => {
     let isNew = (data)?false:true;
@@ -121,18 +123,34 @@ const closeArticleForm = () => {
 }
 
 const saveArticleForm = (id) => {
-    let data = getArticleFromData();
-    data.id = id;
-    if(id == 0 || id === '0')
-        createPost(data)
-    else
-        sendUpdatePost(data);
+    ids = id;
+    dz.processQueue();
 }
 
 const requiredFunc = () => {
     $(function () {
         Dropzone.autoDiscover = false;
-        $("div#dZUpload").dropzone({ url: "/file/post" });
+        dz = new Dropzone(dZUpload, {
+            url: uploadHeaderImageUrl,
+            autoProcessQueue: false,
+            maxFiles: 1,
+            init: function () {
+                this.on("maxfilesexceeded", function (file) {
+                    this.removeAllFiles();
+                    this.addFile(file);
+                });
+            },
+            success: function (file, response) {
+                response = jQuery.parseJSON(response)
+                let data = getArticleFromData();
+                data.id = ids;
+                data.img_baner = response.file;
+                if (ids == 0 || ids === '0')
+                    createPost(data)
+                else
+                    sendUpdatePost(data);
+            } 
+        });
         $('[data-toggle="tooltip"]').tooltip()
     })
 }

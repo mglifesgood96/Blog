@@ -73,7 +73,8 @@ class Post
                 id_category=:id_category, 
                 id_tag=:id_tag, 
                 status=:status,
-                page_name=:page_name
+                page_name=:page_name,
+                img_baner=:img_baner
             ";
 
         $stmt = $this->conn->prepare($query);
@@ -93,6 +94,7 @@ class Post
         $stmt->bindParam(":id_tag", $this->id_tag);
         $stmt->bindParam(":status", $this->status);
         $stmt->bindParam(":page_name", $this->page_name);
+        $stmt->bindParam(":img_baner", $this->img_baner);
         
         if ($stmt->execute()) {
             $this->id = $this->conn->lastInsertId();
@@ -111,7 +113,8 @@ class Post
                 id_category = :id_category,
                 id_tag = :id_tag,
                 status = :status,
-                page_name=:page_name
+                page_name=:page_name,
+                img_baner=:img_baner
             WHERE
                 id = :id";
  
@@ -130,6 +133,7 @@ class Post
         $stmt->bindParam(':id_tag', $this->id_tag);
         $stmt->bindParam(':status', $this->status);
         $stmt->bindParam(":page_name", $this->page_name);
+        $stmt->bindParam(":img_baner", $this->img_baner);
         $stmt->bindParam(':id', $this->id);
 
         if ($stmt->execute()) {

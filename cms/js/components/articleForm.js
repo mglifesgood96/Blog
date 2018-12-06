@@ -13,7 +13,12 @@ const articleForm = (data) => {
         <div class="mx-3">
             <div class="form-group">
                 <div class="mb-3">
-                    <label for="exampleFormControlSelect2">Tytuł</label>
+                    <label for="exampleFormControlSelect2">
+                        Tytuł 
+                        <!--<div class="btn btn-secondary circle-div" data-toggle="tooltip" data-placement="top" title="Tytuł musi mieć unikalną nazwe">
+                            <span>?</span>
+                        </div>-->
+                    </label>
                     <input type="text" class="form-control" name="title" id="" aria-describedby="helpId" placeholder="" value="${(isNew)?'':data.title}">
                 </div>
 
@@ -77,6 +82,7 @@ const articleForm = (data) => {
         </div>
     <form>
     `;
+    tooltipStart()
     return temp;
 }
 
@@ -122,23 +128,8 @@ const saveArticleForm = (id) => {
         sendUpdatePost(data);
 }
 
-
-function uploadImage(image) {
-    var data = new FormData();
-    data.append("image", image);
-    $.ajax({
-        url: 'Your url to deal with your image',
-        cache: false,
-        contentType: false,
-        processData: false,
-        data: data,
-        type: "post",
-        success: function (url) {
-            var image = $('<img>').attr('src', 'http://' + url);
-            $('#summernote').summernote("insertNode", image[0]);
-        },
-        error: function (data) {
-            console.log(data);
-        }
-    });
+const tooltipStart = () => {
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
 }

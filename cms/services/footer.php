@@ -15,6 +15,7 @@
   <script src="vendor/toastr/toastr.min.js"></script>
   <script src="vendor/sweetalert/sweetalert2.all.min.js"></script>
   <script src="vendor/choosen/chosen.jquery.min.js"></script>
+  <script src="vendor/popper/popper.min.js"></script>
 
   <script src="js/sb-admin.min.js"></script>
 

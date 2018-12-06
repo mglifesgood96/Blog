@@ -7,6 +7,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
  
 include_once '../../config/database.php';
 include_once '../../objects/posts.php';
+include_once '../../objects/globals.php';
 
 $database = new Database();
 $db = $database->getConnection();
@@ -18,6 +19,7 @@ $description = $_POST['description'];
 $id_category = $_POST['id_category'];
 $id_tag = $_POST['id_tag'];
 $status = $_POST['status'];
+$page_name = page_name_genertator($title);
 
 if (isset($status)) {
 
@@ -26,6 +28,7 @@ if (isset($status)) {
     $post->id_category = $id_category;
     $post->id_tag = $id_tag;
     $post->status = $status;
+    $post->page_name = $page_name;
     
     if ($post->create()) {
         http_response_code(201);

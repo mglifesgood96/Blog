@@ -6,6 +6,7 @@ const getStatusesUrl = 'http://localhost/Blog/api/controlers/posts_status/read.p
 const deletePostUrl = 'http://localhost/Blog/api/controlers/posts/delete.php';
 const updatePostUrl = 'http://localhost/Blog/api/controlers/posts/update.php';
 const createPostUrl = 'http://localhost/Blog/api/controlers/posts/create.php';
+const uploadImageUrl = 'http://localhost/Blog/api/controlers/image/upload.php';
 const tabID = 'articlesTab';
 
 let getPosts = (refresh = false) => {
@@ -33,13 +34,14 @@ let getOnePost = (id) => {
             $('.form-control-chosen').chosen()
             $('.form-control-chosen-ds').chosen({ "disable_search": true })   
             $('#summernote').summernote({
-                height: ($(window).height() - 300)
+                height: ($(window).height() - 300),
+                callbacks: {
+                    onImageUpload: function (image) {
+                        uploadImage(image[0]);
+                    }
+                }
             });
-            // callbacks: {
-            //     onImageUpload: function (image) {
-            //         uploadImage(image[0]);
-            //     }
-            // }
+            
         },
         error: function (request, status, error) {
             console.log(error);
@@ -141,6 +143,27 @@ let getArticleFromData = () => {
     });
     result.id_tag = tags.toString();
     return result;
+}
+
+let uploadImage = (image) => {
+    var data = new FormData();
+    data.append("file", image);
+    $.ajax({
+        url: uploadImageUrl,
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: data,
+        type: "post",
+        success: function (url) {
+            console.log(url)
+            var image = $('<img>').attr('src', url);
+            $('#summernote').summernote("insertNode", image[0]);
+        },
+        error: function (data) {
+            console.log(data);
+        }
+    });
 }
 
 let postsTable = (data, refresh=false) => {

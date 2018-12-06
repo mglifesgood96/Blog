@@ -46,6 +46,20 @@ class Post
         return $stmt;
     }
 
+    function readOne()
+    {
+        $query = "SELECT *
+            FROM
+                " . $this->table_name . " " .
+            "WHERE page_name = :page_name";
+
+        $stmt = $this->conn->prepare($query);
+        $this->page_name = htmlspecialchars(strip_tags($this->page_name));
+        $stmt->bindParam(':page_name', $this->page_name);
+        $stmt->execute();
+        return $stmt;
+    }
+
     function create()
     {
         $query = "INSERT INTO
@@ -55,7 +69,9 @@ class Post
                 description=:description, 
                 id_category=:id_category, 
                 id_tag=:id_tag, 
-                status=:status";
+                status=:status,
+                page_name=:page_name
+            ";
 
         $stmt = $this->conn->prepare($query);
 
@@ -73,7 +89,8 @@ class Post
         $stmt->bindParam(":id_category", $this->id_category);
         $stmt->bindParam(":id_tag", $this->id_tag);
         $stmt->bindParam(":status", $this->status);
-
+        $stmt->bindParam(":page_name", $this->page_name);
+        
         if ($stmt->execute()) {
             $this->id = $this->conn->lastInsertId();
             return true;
@@ -90,7 +107,8 @@ class Post
                 description = :description,
                 id_category = :id_category,
                 id_tag = :id_tag,
-                status = :status
+                status = :status,
+                page_name=:page_name
             WHERE
                 id = :id";
  
@@ -108,6 +126,7 @@ class Post
         $stmt->bindParam(':id_category', $this->id_category);
         $stmt->bindParam(':id_tag', $this->id_tag);
         $stmt->bindParam(':status', $this->status);
+        $stmt->bindParam(":page_name", $this->page_name);
         $stmt->bindParam(':id', $this->id);
 
         if ($stmt->execute()) {

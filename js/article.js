@@ -7,6 +7,25 @@ let getArticle = () => {
         data: { page_name: pn },
         success: function (data) {
             templateArticle(data.data[0]);
+            getTags(data.data[0].id_tag);
+        },
+        error: function (request, status, error) {
+            console.log(error);
+        }
+    })
+}
+
+let getTags = (ds) => {
+    $.ajax({
+        type: "POST",
+        url: 'http://localhost/Blog/api/controlers/tags/ids.php',
+        dataType: "JSON",
+        data: { ids: ds },
+        success: function (data) {
+            document.getElementById('tags').innerHTML = '';
+            data.data.forEach(e => {
+                document.getElementById('tags').innerHTML += '#'+e.name;
+            });
         },
         error: function (request, status, error) {
             console.log(error);

@@ -26,6 +26,20 @@ class Tags
         return $stmt;
     }
 
+    function readByIds()
+    {
+        $query = "SELECT    
+                    name
+                FROM
+                " . $this->table_name . " "
+                ."WHERE id IN (".$this->id .")";
+
+        $stmt = $this->conn->prepare($query);
+        //$stmt->bindParam(":ids", $this->id);
+        $stmt->execute();
+        return $stmt;
+    }
+
     function add()
     {
         $query = "INSERT INTO

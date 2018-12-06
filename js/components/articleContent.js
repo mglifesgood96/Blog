@@ -13,9 +13,7 @@ const articleContent = (data)=>{
                 ${data.description}
             </span>
         <br /><br />
-        <span class="main-article-tag">
-
-        </span>
+        <span class="main-article-tag" id="tags"></span>
     </div>
     `;
     return temp;

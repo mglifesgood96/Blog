@@ -18,7 +18,6 @@
   <script src="vendor/popper/popper.min.js"></script>
 
   <script src="js/sb-admin.min.js"></script>
-
   <script src="js/script.js"></script>
 
   <script src="js/components/header.js"></script>
@@ -32,6 +31,7 @@
     <script src="js/categories.js"></script>
   <?php } ?>
   <?php if ($strona === "articles.php") { ?> 
+    <script src="vendor/dropzone/dropzone.js"></script>
     <script src="vendor/summernote/summernote-bs4.js"></script>
     <script src="js/components/articleForm.js"></script>
     <script src="js/articles.js"></script>

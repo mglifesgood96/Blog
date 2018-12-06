@@ -48,10 +48,13 @@ class Post
 
     function readOne()
     {
-        $query = "SELECT *
-            FROM
-                " . $this->table_name . " " .
-            "WHERE page_name = :page_name";
+        $query = "
+            SELECT posts.id_tag, categories.name AS category, posts.title, posts.description, posts.status, posts.img_baner, posts.page_name, posts.creation_date
+            FROM  " . $this->table_name . " " . "
+            LEFT JOIN categories
+            ON posts.id_category=categories.id 
+            WHERE page_name = :page_name
+        ";
 
         $stmt = $this->conn->prepare($query);
         $this->page_name = htmlspecialchars(strip_tags($this->page_name));

@@ -24,16 +24,14 @@ if ($num > 0) {
         extract($row);
 
         $post_item = array(
-            "id" => $id,
             "page_name" => $page_name,
             "img_baner" => $img_baner,
             "title" => $title,
             "description" => $description,
             "id_tag" => $id_tag,
-            "id_category" => $id_category,
+            "category" => $category,
             "status" => $status,
-            "creation_date" => $creation_date,
-            "modification_date" => $modification_date
+            "creation_date" => $creation_date
         );
 
         array_push($posts_arr["data"], $post_item);

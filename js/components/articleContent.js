@@ -3,7 +3,7 @@ const articleContent = (data)=>{
     let temp = `
     <div class="col-lg-12">
         <hr />
-            <span class="main-article-category">Kategoria artykułu</span>
+            <span class="main-article-category">${data.category}</span>
         <br />
             <a href="article.html"></a><span class="main-article-title">${data.title}</span></a>
         <br />

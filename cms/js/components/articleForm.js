@@ -62,11 +62,12 @@ const articleForm = (data) => {
 
                 <div class="mb-3">
                     <label for="exampleFormControlSelect2">Dodaj zdjęcie</label>
-                    <div class="custom-file">
+                    <div id="dZUpload" class="dropzone"></div>
+                    <!--<div class="custom-file">
                         <input type="file" class="custom-file-input" id="validatedCustomFile" required>
                         <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
                         <div class="invalid-feedback">Example invalid custom file feedback</div>
-                    </div>
+                    </div>-->
                 </div>
 
                 <div class="mb-3">
@@ -82,7 +83,7 @@ const articleForm = (data) => {
         </div>
     <form>
     `;
-    tooltipStart()
+    requiredFunc()
     return temp;
 }
 
@@ -128,8 +129,10 @@ const saveArticleForm = (id) => {
         sendUpdatePost(data);
 }
 
-const tooltipStart = () => {
+const requiredFunc = () => {
     $(function () {
+        Dropzone.autoDiscover = false;
+        $("div#dZUpload").dropzone({ url: "/file/post" });
         $('[data-toggle="tooltip"]').tooltip()
     })
 }

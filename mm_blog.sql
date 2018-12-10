@@ -35,11 +35,7 @@ CREATE TABLE `categories` (
   `modification_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
--- --------------------------------------------------------
 
---
--- Struktura tabeli dla tabeli `posts`
---
 
 CREATE TABLE `posts` (
   `id` int(11) NOT NULL,
@@ -54,15 +50,7 @@ CREATE TABLE `posts` (
   `modification_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
---
--- Zrzut danych tabeli `posts`
---
 
- --------------------------------------------------------
-
---
--- Struktura tabeli dla tabeli `statuses_posts`
---
 
 CREATE TABLE `statuses_posts` (
   `id` int(11) NOT NULL,
@@ -70,14 +58,7 @@ CREATE TABLE `statuses_posts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 --
--- Zrzut danych tabeli `statuses_posts`
---
 
--- --------------------------------------------------------
-
---
--- Struktura tabeli dla tabeli `tags`
---
 
 CREATE TABLE `tags` (
   `id` int(11) NOT NULL,
@@ -86,17 +67,7 @@ CREATE TABLE `tags` (
   `modification_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
---
--- Zrzut danych tabeli `tags`
---
 
-
---
--- Indeksy dla zrzutów tabel
---
-
---
--- Indeksy dla tabeli `categories`
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`);

@@ -219,6 +219,7 @@ let templateCategories = () => {
         <div class="row" style="margin: 20px 5px 35px 5px;">
             ${pageHeader('Edycja postów')}
         <div class="col-md-12" id="tabBox">
+            <button type="button" class="btn btn-info" onClick="openArticleForm()">Nowe</button>
             ${pageTable(thArr, tabID)}
         </div> 
         <div class="col-md-12" id="articleForm" style="display:none">

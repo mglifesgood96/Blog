@@ -5,7 +5,7 @@ let ids;
 let imgban = '';
 
 const articleForm = (data) => {
-    imgban = data.img_detal.name;
+    imgban = (data)?data.img_detal.name:'';
     let isNew = (data)?false:true;
     let postTags = [];
     if(!isNew){
@@ -68,8 +68,9 @@ const articleForm = (data) => {
                     <label for="exampleFormControlSelect2">Zdjęcie główne</label>
                     <div class="row">
                         <div class="col-md-4" id="usImg">
-                            <img src="../${data.img_baner}" class="img-fluid" alt="Responsive image" id="img_baner">
-                            <br /> <br />
+                            ${
+                                (isNew || data.img_baner === "")?'':`<img src="../${data.img_baner}" class="img-fluid" alt="Responsive image" id="img_baner"><br /> <br />`
+                            }
                             <button type="button" class="btn btn-info" onClick="showDropzoneNew()">Nowe</button>
                             <button type="button" class="btn btn-danger" onClick="removeImgBaner()">Usuń</button>
                         </div>

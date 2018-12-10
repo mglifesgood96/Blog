@@ -20,7 +20,7 @@ $description = $_POST['description'];
 $id_category = $_POST['id_category'];
 $id_tag = $_POST['id_tag'];
 $status = $_POST['status'];
-$img_baner = "http://localhost/Blog/images/".$_POST['img_baner'];
+$img_baner = "images/".$_POST['img_baner'];
 
 $page_name = page_name_genertator($title);
 

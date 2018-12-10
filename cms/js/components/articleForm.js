@@ -2,8 +2,10 @@ let categories = [];
 let tags = [];
 let dz;
 let ids;
+let imgban = '';
 
 const articleForm = (data) => {
+    imgban = data.img_detal.name;
     let isNew = (data)?false:true;
     let postTags = [];
     if(!isNew){
@@ -63,13 +65,19 @@ const articleForm = (data) => {
                 </div> 
 
                 <div class="mb-3">
-                    <label for="exampleFormControlSelect2">Dodaj zdjęcie</label>
-                    <div id="dZUpload" class="dropzone"></div>
-                    <!--<div class="custom-file">
-                        <input type="file" class="custom-file-input" id="validatedCustomFile" required>
-                        <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
-                        <div class="invalid-feedback">Example invalid custom file feedback</div>
-                    </div>-->
+                    <label for="exampleFormControlSelect2">Zdjęcie główne</label>
+                    <div class="row">
+                        <div class="col-md-4" id="usImg">
+                            <img src="../${data.img_baner}" class="img-fluid" alt="Responsive image" id="img_baner">
+                            <br /> <br />
+                            <button type="button" class="btn btn-info" onClick="showDropzoneNew()">Nowe</button>
+                            <button type="button" class="btn btn-danger" onClick="removeImgBaner()">Usuń</button>
+                        </div>
+                    </div>
+                    <div id="newBaner">
+                        <div style="cursor: pointer;" onClick="cancelAddIMG()"><i class="fa fa-times"></i> Anuluj</div>
+                        <div id="dZUpload" class="dropzone"></div>
+                    </div>
                 </div>
 
                 <div class="mb-3">
@@ -85,7 +93,7 @@ const articleForm = (data) => {
         </div>
     <form>
     `;
-    requiredFunc()
+    requiredFunc(data)
     return temp;
 }
 
@@ -124,15 +132,29 @@ const closeArticleForm = () => {
 
 const saveArticleForm = (id) => {
     ids = id;
-    dz.processQueue();
+    (dz.files.length > 0) ? dz.processQueue() : sendNewData();
 }
 
-const requiredFunc = () => {
+const sendNewData = () => {
+    let data = getArticleFromData();
+    data.id = ids;
+    data.img_baner = imgban;
+    if (ids == 0 || ids === '0')
+        createPost(data)
+    else
+        sendUpdatePost(data);
+}
+
+const requiredFunc = (data) => {
     $(function () {
+        $('#newBaner').hide();
         Dropzone.autoDiscover = false;
         dz = new Dropzone(dZUpload, {
             url: uploadHeaderImageUrl,
             autoProcessQueue: false,
+            uploadMultiple: false,
+            addRemoveLinks: true,
+            acceptedFiles: ".jpeg,.jpg,.png,.gif",
             maxFiles: 1,
             init: function () {
                 this.on("maxfilesexceeded", function (file) {
@@ -151,6 +173,32 @@ const requiredFunc = () => {
                     sendUpdatePost(data);
             } 
         });
+        dz.on("complete", function (file) {
+            dz.removeFile(file);
+        }),
         $('[data-toggle="tooltip"]').tooltip()
     })
+}
+
+const refreshImage = (src) => {
+    document.getElementById('img_baner').setAttribute("src", '../images/'+src);
+}
+
+const showDropzoneNew = () => { 
+    $('#usImg').hide();
+    $('#newBaner').show();
+}
+
+const showImgView = () => {
+    $('#usImg').show();
+    $('#newBaner').hide();
+}
+
+const removeImgBaner = () => {
+    alert('niedostępne')
+}
+
+const cancelAddIMG = () => {
+    if(dz.files.length > 0)dz.removeAllFiles();
+    showImgView();
 }

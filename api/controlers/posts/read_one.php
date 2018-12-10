@@ -10,8 +10,7 @@ $db = $database->getConnection();
 
 $posts = new Post($db);
 
-$posts->page_name = "przykladowy_tytul_1";
-//$_POST['page_name'];
+$posts->page_name = $_POST['page_name'];
 
 $stmt = $posts->readOne();
 $num = $stmt->rowCount();

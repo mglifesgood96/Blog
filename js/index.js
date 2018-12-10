@@ -10,7 +10,8 @@ let templateIndex = () => {
             <span class="recent-articles">Ostatnie wstawki</span>
             <hr />
             <div class="row">
-                ${latestPosts()}
+                <div id="latestPosts" class="col-lg-8 col-md-12 col-sm-12">
+                </div>
                 <div class="col-lg-4 col-md-4 d-none d-md-none d-lg-block">
                     <span class="sponsors">O mnie</span>
                     <br /><br />
@@ -21,3 +22,4 @@ let templateIndex = () => {
     document.getElementById('root').innerHTML = temp;
 }
 templateIndex();
+getAllPosts();

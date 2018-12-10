@@ -86,6 +86,7 @@ let createPost = (data) => {
 }
 
 let sendUpdatePost = (data) => {
+    let newImg = data.img_baner;
     $.ajax({
         type: "POST",
         url: updatePostUrl,
@@ -93,6 +94,8 @@ let sendUpdatePost = (data) => {
         data: data,
         success: function (data) {
             if (data.status == '200') {
+                refreshImage(newImg)
+                showImgView()
                 toastrAlertFlota(data.message, "success");
             } else {
                 toastrAlertFlota(data.message, "error");

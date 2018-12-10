@@ -14,6 +14,18 @@ class Categories
         $this->conn = $db;
     }
 
+    function read_blog()
+    {
+        $query = "SELECT    
+                name
+            FROM
+                " . $this->table_name;
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt;
+    }
+
     function read()
     {
         $query = "SELECT    

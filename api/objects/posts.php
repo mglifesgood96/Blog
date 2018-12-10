@@ -20,6 +20,19 @@ class Post
         $this->conn = $db;
     }
 
+    function readBlog()
+    {
+        $query = "SELECT posts.page_name, posts.title, categories.name AS category, posts.creation_date, posts.img_baner
+            FROM
+                " . $this->table_name . " " .
+            "LEFT JOIN categories ON posts.id_category = categories.id 
+            WHERE status = 2";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt;
+    }
+
     function readAdm()
     {
         $query = "SELECT posts.id, posts.id_tag, categories.name AS category, posts.title, statuses_posts.name AS status, posts.page_name, posts.creation_date, posts.modification_date

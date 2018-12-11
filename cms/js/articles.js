@@ -161,7 +161,6 @@ let uploadImage = (image) => {
         data: data,
         type: "post",
         success: function (url) {
-            console.log(url)
             var image = $('<img>').attr('src', url);
             $('#summernote').summernote("insertNode", image[0]);
         },
@@ -182,11 +181,11 @@ let postsTable = (data, refresh=false) => {
                 $(row).attr('data-index', data.id);
             },
             "columns": [
-                { "data": "id", responsivePriority: 1, },
-                { "data": "title", responsivePriority: 1, },
-                { "data": "category", responsivePriority: 1, },
-                { "data": "status", responsivePriority: 1, },
-                { "data": "creation_date", responsivePriority: 1, },
+                { "data": "id", responsivePriority: 3 },
+                { "data": "title", responsivePriority: 1 },
+                { "data": "category", responsivePriority: 2 },
+                { "data": "status", responsivePriority: 2 },
+                { "data": "creation_date", responsivePriority: 3 },
                 { "name": "actions" },
             ],
             "columnDefs": [{
@@ -219,7 +218,8 @@ let templateCategories = () => {
         <div class="row" style="margin: 20px 5px 35px 5px;">
             ${pageHeader('Edycja postów')}
         <div class="col-md-12" id="tabBox">
-            <button type="button" class="btn btn-info" onClick="openArticleForm()">Nowe</button>
+            <button type="button" class="btn btn-info" onClick="openArticleForm()">Nowy post</button>
+            <br /><br />
             ${pageTable(thArr, tabID)}
         </div> 
         <div class="col-md-12" id="articleForm" style="display:none">

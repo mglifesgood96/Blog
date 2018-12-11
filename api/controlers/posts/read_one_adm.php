@@ -22,7 +22,16 @@ if ($num > 0) {
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         extract($row);
-
+        $img_name = "";
+        $img_type = "";
+        $img_size = "";
+        if($img_baner && $img_baner !== "" && file_exists('../../../' . $img_baner)){
+            $img_name = substr($img_baner, strrpos($img_baner, '/') + 1);
+            $img_type = get_image_mime_type('../../../' . $img_baner);
+            $img_size = filesize('../../../' . $img_baner);
+        }else{
+            $img_baner = "";
+        }
         $post_item = array(
             "id" => $id,
             "page_name" => $page_name,
@@ -35,9 +44,9 @@ if ($num > 0) {
             "creation_date" => $creation_date,
             "modification_date" => $modification_date,
             "img_detal" => array(
-                "name" => substr($img_baner, strrpos($img_baner, '/') + 1),
-                "type" => get_image_mime_type('../../../'.$img_baner),
-                "size" => filesize('../../../' . $img_baner)
+                "name" => $img_name,
+                "type" => $img_type,
+                "size" => $img_size
             )
         );
 

@@ -182,7 +182,8 @@ const requiredFunc = (data) => {
 }
 
 const refreshImage = (src) => {
-    document.getElementById('img_baner').setAttribute("src", '../images/'+src);
+    if(src)
+        document.getElementById('img_baner').setAttribute("src", '../images/'+src);
 }
 
 const showDropzoneNew = () => { 

@@ -16,7 +16,8 @@ class Categories
 
     function read_blog()
     {
-        $query = "SELECT    
+        $query = "SELECT   
+                id, 
                 name
             FROM
                 " . $this->table_name;

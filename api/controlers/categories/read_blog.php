@@ -23,6 +23,7 @@ if ($num > 0) {
         extract($row);
 
         $post_item = array(
+            "id" => $id,
             "name" => $name
         );
 

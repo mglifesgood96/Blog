@@ -40,6 +40,7 @@ let getTags = (ds) => {
 
 let templateArticle = (data) => {
     let temp = `
+    ${menuTemplate()}
     <main role="main" class="container">
         <br /> <br />
         <div class="row">
@@ -58,5 +59,5 @@ let templateArticle = (data) => {
     `;
     document.getElementById('root').innerHTML = temp;
 }
-
 getArticle();
+categoriesMenu();

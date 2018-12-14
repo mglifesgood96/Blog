@@ -1,5 +1,6 @@
 let templateIndex = () => {
     let temp = `
+        ${menuTemplate()}
         <main role="main" class="container">
             ${banner()}
             <br /><br />
@@ -22,4 +23,5 @@ let templateIndex = () => {
     document.getElementById('root').innerHTML = temp;
 }
 templateIndex();
+categoriesMenu();
 getAllPosts();
